@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
+    "seed:cv": "node seeders/seed-cv.js",
+    "admin:bootstrap": "node seeders/bootstrap-admin.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,8 +23,9 @@
     "jsonwebtoken": "^9.0.3",
     "nodemon": "^3.1.14",
     "parser": "^0.1.4",
-    "pg": "^8.16.3",
-    "sequelize": "^6.37.7"
+    "pg": "^8.23.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.3"

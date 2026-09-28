@@ -1,12 +1,5 @@
-import { Model } from 'sequelize';
-
 export default (sequelize, DataTypes) => {
-    class Project extends Model {
-        static associate(models) {
-            Project.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
-        }
-    }
-    Project.init({
+    const Project = sequelize.define('Project', {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         name: { type: DataTypes.STRING, allowNull: false },
         description: { type: DataTypes.TEXT, allowNull: true },
@@ -14,12 +7,15 @@ export default (sequelize, DataTypes) => {
         imageUrl: { type: DataTypes.STRING, allowNull: true },
         dateStarted: { type: DataTypes.DATE, allowNull: true },
         dateCompleted: { type: DataTypes.DATE, allowNull: true },
+        userId: { type: DataTypes.INTEGER, allowNull: true },
+    }, {
+        tableName: 'projects',
+        timestamps: true,
+    });
 
-    },
-        {
-            sequelize,
-            modelName: 'Project',
-            tableName: 'projects',
-        });
+    Project.associate = (models) => {
+        Project.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    };
+
     return Project;
-}
+};

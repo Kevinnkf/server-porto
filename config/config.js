@@ -1,35 +1,39 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+const commonPostgres = {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  migrationFileExtension: '.mjs',
+  useDefineForClassFields: true,
+  logging: false,
+};
+
 export default {
   development: {
-    username: 'postgres',
-    password: 'donadoni',
-    database: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    dialect: 'postgres',
-    migrationFileExtension: '.js',
-    useDefineForClassFields: true,
+    ...commonPostgres,
+    username: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'donadoni',
+    database: process.env.DB_NAME || 'postgres',
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: Number(process.env.DB_PORT || 5432),
   },
   test: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
+    ...commonPostgres,
+    username: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'donadoni',
+    database: process.env.DB_NAME || 'postgres',
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: Number(process.env.DB_PORT || 5432),
   },
   production: {
+    ...commonPostgres,
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
-    protocol: 'postgres',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     },
-    migrationFileExtension: '.js',
-    useDefineForClassFields: true,
-  }
+  },
 };
