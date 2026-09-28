@@ -19,7 +19,7 @@ export const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, role: user.role || 'user' },
             process.env.JWT_SECRET || 'fallbacksecret',
             { expiresIn: '24h' }
         );
@@ -27,7 +27,15 @@ export const login = async (req, res) => {
         res.status(200).json({
             message: 'Login successful',
             token,
-            user: { id: user.id, username: user.username, email: user.email, name: user.name }
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                name: user.name,
+                profession: user.profession,
+                summary: user.summary,
+                role: user.role || 'user'
+            }
         });
     } catch (error) {
         res.status(500).json({ message: 'Error during login', error: error.message });

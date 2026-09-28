@@ -17,14 +17,12 @@ import authRoutes from './routes/auth.js';
 import skillRoutes from './routes/skill.js';
 import experiencesRoutes from './routes/experiences.js';
 import projectsRoutes from './routes/projects.js';
-import summaryRoutes from './routes/summary.js';
 
 app.use('/api', routes);
 app.use('/api/auth', authRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/experiences', experiencesRoutes);
 app.use('/api/projects', projectsRoutes);
-app.use('/api/summary', summaryRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welco to my portofolio!');

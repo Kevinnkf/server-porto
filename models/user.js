@@ -1,15 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-
 export default (sequelize, DataTypes) => {
-    class User extends Model {
-        static associate(models) {
-            User.hasMany(models.Project, { foreignKey: 'userId', as: 'projects' });
-            User.hasMany(models.Experiences, { foreignKey: 'userId', as: 'experiences' });
-            User.hasMany(models.Summary, { foreignKey: 'userId', as: 'summaries' });
-            User.hasMany(models.Skill, { foreignKey: 'userId', as: 'skills' });
-        }
-    }
-    User.init({
+    const User = sequelize.define('User', {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
         username: { type: DataTypes.STRING, allowNull: false, unique: true },
         email: {
@@ -19,10 +9,20 @@ export default (sequelize, DataTypes) => {
             }
         },
         password: { type: DataTypes.STRING, allowNull: false },
-        name: { type: DataTypes.STRING, allowNull: false }
+        name: { type: DataTypes.STRING, allowNull: false },
+        profession: { type: DataTypes.STRING, allowNull: true },
+        summary: { type: DataTypes.TEXT, allowNull: true },
+        role: { type: DataTypes.STRING, allowNull: false, defaultValue: 'user' }
     }, {
-        sequelize,
-        modelName: 'User'
+        tableName: 'users',
+        timestamps: true,
     });
-    return User
-}
+
+    User.associate = (models) => {
+        User.hasMany(models.Project, { foreignKey: 'userId', as: 'projects' });
+        User.hasMany(models.Experiences, { foreignKey: 'userId', as: 'experiences' });
+        User.hasMany(models.Skill, { foreignKey: 'userId', as: 'skills' });
+    };
+
+    return User;
+};

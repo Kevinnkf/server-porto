@@ -11,8 +11,22 @@ export const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallbacksecret');
         req.user = decoded;
-        next();
+        return next();
     } catch (error) {
-        res.status(401).json({ message: 'Token is not valid' });
+        return res.status(401).json({ message: 'Token is not valid' });
     }
 };
+
+export const requireRole = (allowedRoles) => {
+    const roles = Array.isArray(allowedRoles) ? allowedRoles : [allowedRoles];
+
+    return (req, res, next) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
+        }
+
+        return next();
+    };
+};
+
+export const requireAdmin = requireRole(['admin']);

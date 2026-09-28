@@ -1,13 +1,13 @@
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
+export default {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn('projects', 'userId', {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Users',
+        model: 'users',
         key: 'id'
       },
       onUpdate: 'CASCADE',
@@ -18,7 +18,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Users',
+        model: 'users',
         key: 'id'
       },
       onUpdate: 'CASCADE',
@@ -29,7 +29,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Users',
+        model: 'users',
         key: 'id'
       },
       onUpdate: 'CASCADE',
